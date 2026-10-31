@@ -3,7 +3,7 @@
 # Binary Tech Labs - shortcuts for managing a Coolify server.
 #
 # After Self-Hosting Ep. 6 (port 22 closed), use the tunnel version instead:
-# series/self-hosting/06-close-port-22-ssh-tunnel/companion/config/ssh/config.example
+# config/ssh/config.example
 #
 # Replace:
 #   SERVER_IP  -> your VPS public IP address
@@ -18,13 +18,13 @@
 
 Host coolify
     HostName SERVER_IP
-    User lenard
+    User <username>
     IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
 
 Host coolify-admin
     HostName SERVER_IP
-    User lenard
+    User <username>
     IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
     # Dashboard, realtime websockets, web terminal websockets
