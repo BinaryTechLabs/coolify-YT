@@ -4,7 +4,7 @@
 
 Install Coolify on a clean Ubuntu VPS and reach it through a Cloudflare Tunnel, with **no inbound web ports open**. Only SSH stays open, and only from your own IP.
 
-▶️ **Watch the video:** *coming soon*
+▶️ [**Watch the video:**](https://youtu.be/WxhswsEb0xg?si=whvixR7RGIkAnIsV)
 
 ## What you'll end up with
 
