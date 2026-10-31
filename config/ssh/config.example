@@ -1,0 +1,34 @@
+# ~/.ssh/config  (on YOUR computer, not the server)
+#
+# Binary Tech Labs - shortcuts for managing a Coolify server.
+#
+# After Self-Hosting Ep. 6 (port 22 closed), use the tunnel version instead:
+# series/self-hosting/06-close-port-22-ssh-tunnel/companion/config/ssh/config.example
+#
+# Replace:
+#   SERVER_IP  -> your VPS public IP address
+#   lenard     -> the admin username you created on the server
+#   id_ed25519 -> your private key file, if it's named differently
+#
+# Usage:
+#   ssh coolify          normal admin shell
+#   ssh coolify-admin    shell + forwards Coolify's dashboard to http://localhost:8000
+#                        (use this for first-time setup, or as an emergency way in
+#                        if the Cloudflare Tunnel is down)
+
+Host coolify
+    HostName SERVER_IP
+    User lenard
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+
+Host coolify-admin
+    HostName SERVER_IP
+    User lenard
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+    # Dashboard, realtime websockets, web terminal websockets
+    LocalForward 8000 127.0.0.1:8000
+    LocalForward 6001 127.0.0.1:6001
+    LocalForward 6002 127.0.0.1:6002
+    ExitOnForwardFailure yes

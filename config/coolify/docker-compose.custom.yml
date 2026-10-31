@@ -1,0 +1,27 @@
+# /data/coolify/source/docker-compose.custom.yml
+#
+# Binary Tech Labs - bind Coolify's direct-access ports to localhost only.
+#
+# By default Coolify publishes these ports on every interface (0.0.0.0):
+#   8000 -> dashboard
+#   6001 -> realtime (Laravel Reverb websockets)
+#   6002 -> web terminal websockets
+#
+# Docker writes its own iptables rules for published ports, so UFW alone does NOT
+# block them. Our provider firewall is the main protection. This file adds a
+# second layer: the ports stay reachable from the server itself (which still lets
+# you use an SSH port-forward as an emergency way in), but nothing outside can
+# connect to them, even if the provider firewall gets changed by mistake.
+#
+# ONLY apply this after the dashboard works through your Cloudflare Tunnel domain.
+# Coolify loads this file automatically and doesn't overwrite it on updates.
+#
+# Source: https://coolify.io/docs/core/infrastructure/servers/firewall
+#         (section "Restrict Coolify ports with a Compose override")
+
+services:
+  coolify:
+    ports: !override
+      - "127.0.0.1:${APP_PORT:-8000}:8080"
+      - "127.0.0.1:${SOKETI_PORT:-6001}:6001"
+      - "127.0.0.1:6002:6002"
