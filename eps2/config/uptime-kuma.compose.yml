@@ -1,0 +1,31 @@
+# Uptime Kuma: Coolify service compose, with the image PINNED to an exact version.
+#
+# Binary Tech Labs, Self-Hosting Ep. 2.
+# Based on Coolify's one-click template (templates/compose/uptime-kuma.yaml).
+# The only change is the image tag:
+#
+#   template:  louislam/uptime-kuma:2       -> newest 2.x on every restart/redeploy
+#   this file: louislam/uptime-kuma:2.5.6   -> stays put until YOU change it
+#
+# DON'T use :latest. On Docker Hub, as of Oct 2026, :latest still points to the
+# old 1.x line, not version 2.
+#
+# How to use: in Coolify open the Uptime Kuma service -> "Edit Compose File",
+# change the image line, save, then Restart. To update later, read the release
+# notes (https://github.com/louislam/uptime-kuma/releases), bump the tag, Restart.
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2.5.6
+    environment:
+      # Coolify magic variable: generates the URL and routes to container port 3001.
+      - SERVICE_URL_UPTIMEKUMA_3001
+    volumes:
+      # Named volume: data survives restarts, redeploys and image updates.
+      # Uptime Kuma does NOT support NFS for this; keep it on local disk.
+      - uptime-kuma-data:/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "extra/healthcheck"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
